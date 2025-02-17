@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .buttons {
+        display: flex;
+        flex-direction: column;
+      }
+      .lang-button {
+        width: 300px;
+      }
+
+      .lang-button:focus {
+        background-color: darkgray;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="input-container">
+      <textarea
+        id="html-input"
+        placeholder="Enter new article html text"
+        rows="5"
+        cols="50"
+      ></textarea>
+      <button id="update-html-button" onclick="updateHtml()">
+        Update HTML
+      </button>
+    </div>
+    <div class="buttons">
+      <button class="lang-button" onclick="getValue(this)">mapping</button
+      ><button class="lang-button" onclick="getValue(this)">chSimp</button
+      ><button class="lang-button" onclick="getValue(this)">chTrad</button
+      ><button class="lang-button" onclick="getValue(this)">nl</button
+      ><button class="lang-button" onclick="getValue(this)">fr</button>
+      <button class="lang-button" onclick="getValue(this)">de</button>
+      <button class="lang-button" onclick="getValue(this)">it</button>
+      <button class="lang-button" onclick="getValue(this)">es</button>
+      <button class="lang-button" onclick="getValue(this)">pl</button>
+      <button class="lang-button" onclick="getValue(this)">ptPt</button>
+      <button class="lang-button" onclick="getValue(this)">ja</button>
+      <button class="lang-button" onclick="getValue(this)">kr</button>
+    </div>
+    <div id="root"></div>
+    <div class="display"></div>
+    <script src="./main.js"></script>
+  </body>
+</html>
