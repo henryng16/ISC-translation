@@ -8,6 +8,9 @@
       .buttons {
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 2rem;
       }
       .lang-button {
         width: 300px;
@@ -17,33 +20,86 @@
         background-color: darkgray;
         color: white;
       }
+      .input-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 30vh; /* Full viewport height to center vertically */
+        gap: 2rem;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%; /* Ensure both input groups have the same width */
+        gap: 1rem;
+      }
+
+      .text-area {
+        display: inline-block;
+        height: 200px;
+        width: 100%; /* Use full width of the input group */
+        border: 1px solid blueviolet;
+        overflow: scroll;
+        margin: 0;
+      }
+
+      textarea {
+        padding: 0;
+        display: inline-block;
+        width: 100%; /* Use full width of the input group */
+        border: 1px solid blueviolet;
+        overflow: scroll;
+      }
     </style>
   </head>
   <body>
     <div class="input-container">
-      <textarea
-        id="html-input"
-        placeholder="Enter new article html text"
-        rows="5"
-        cols="50"
-      ></textarea>
-      <button id="update-html-button" onclick="updateHtml()">
-        Update HTML
-      </button>
+      <div class="input-group">
+        <textarea
+          id="html-input"
+          placeholder="Enter new article html text"
+          rows="5"
+          cols="50"
+        ></textarea>
+        <button id="update-html-button" onclick="updateHtml()">
+          Update HTML
+        </button>
+        <textarea
+          id="version-input"
+          placeholder="Enter version id and language"
+          rows="5"
+          cols="50"
+        ></textarea>
+        <button id="map-language-to-translation">
+          Map version Id and Download CSV
+        </button>
+      </div>
+      <div class="input-group">
+        <div class="text-area"></div>
+        <button
+          id="replace-double-quotes-button"
+          onclick="replaceDoubleQuotes()"
+        >
+          Replace double quotes
+        </button>
+      </div>
     </div>
+
     <div class="buttons">
-      <button class="lang-button" onclick="getValue(this)">mapping</button
-      ><button class="lang-button" onclick="getValue(this)">chSimp</button
-      ><button class="lang-button" onclick="getValue(this)">chTrad</button
-      ><button class="lang-button" onclick="getValue(this)">nl</button
+      <button class="lang-button" onclick="getValue(this)">en_US</button
+      ><button class="lang-button" onclick="getValue(this)">zh_CN</button
+      ><button class="lang-button" onclick="getValue(this)">zh_TW</button
+      ><button class="lang-button" onclick="getValue(this)">nl_NL</button
       ><button class="lang-button" onclick="getValue(this)">fr</button>
       <button class="lang-button" onclick="getValue(this)">de</button>
       <button class="lang-button" onclick="getValue(this)">it</button>
       <button class="lang-button" onclick="getValue(this)">es</button>
       <button class="lang-button" onclick="getValue(this)">pl</button>
-      <button class="lang-button" onclick="getValue(this)">ptPt</button>
+      <button class="lang-button" onclick="getValue(this)">pt_PT</button>
       <button class="lang-button" onclick="getValue(this)">ja</button>
-      <button class="lang-button" onclick="getValue(this)">kr</button>
+      <button class="lang-button" onclick="getValue(this)">ko</button>
     </div>
     <div id="root"></div>
     <div class="display"></div>

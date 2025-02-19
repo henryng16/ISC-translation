@@ -3,6 +3,10 @@ const displayTest = document.querySelector(".display");
 const buttons = document.querySelector(".buttons");
 const htmlInput = document.querySelector("#html-input");
 const updateHtmlButton = document.querySelector("#update-html-button");
+const replaceDoubleQuotesButton = document.querySelector(
+  "#replace-double-quotes-button"
+);
+const textArea = document.querySelector(".text-area");
 
 const mapping = [
   `Below is a list of our internationally located distributors and service centers for our traditional watches and service centers that are equipped to service smartwatches.`,
@@ -16,7 +20,7 @@ const mapping = [
   `This partner can only service items purchased through them and does not repair smartwatches, jewellery or leather goods. For items bought while travelling or from an international seller, please contact the seller listed on your receipt for assistance.`,
 ];
 const languageMappings = {
-  mapping: [
+  en_US: [
     `Below is a list of our internationally located distributors and service centers for our traditional watches and service centers that are equipped to service smartwatches.`,
     `For traveling customers, please contact your original seller.`,
     `This partner cannot repair smartwatches, jewelry or leather goods, please contact your original seller.`,
@@ -27,7 +31,7 @@ const languageMappings = {
     `Repair Instructions`,
     `This partner can only service items purchased through them and does not repair smartwatches, jewellery or leather goods. For items bought while travelling or from an international seller, please contact the seller listed on your receipt for assistance.`,
   ],
-  nl: [
+  nl_NL: [
     `Hieronder vindt u een lijst van onze internationaal gevestigde distributeurs en servicecentra voor onze traditionele horloges en servicecentra die zijn uitgerust om smartwatches te onderhouden.`,
     `Voor reizende klanten, gelieve contact op te nemen met uw oorspronkelijke verkoper.`,
     `Deze partner kan geen smartwatches, sieraden of lederwaren repareren, neem hiervoor contact op met uw oorspronkelijke verkoper.`,
@@ -82,7 +86,7 @@ const languageMappings = {
     `Instrucciones de reparación`,
     `Este socio solo puede reparar artículos comprados a través de él y no repara relojes inteligentes, joyas ni artículos de cuero. Para los artículos comprados durante un viaje o a un vendedor internacional, ponte en contacto con el vendedor que figura en tu recibo para obtener asistencia.`,
   ],
-  chSimp: [
+  zh_CN: [
     `以下列表是我们传统手表和智能手表的分销商和服务中心。对于旅行客户，请联系您的原始卖家。`,
     ``,
     `本伙伴不能维修智能手表、珠宝或皮革制品，请联系您的原卖家。`,
@@ -93,7 +97,7 @@ const languageMappings = {
     `维修说明`,
     `该合作伙伴只能维修通过其购买的商品，不能维修智能手表、珠宝或皮具。对于在旅行中购买的商品或从国际卖家处购买的商品，请联系收据上所列的卖家寻求帮助。`,
   ],
-  chTrad: [
+  zh_TW: [
     `以下列表是我們傳統手錶和智能手錶的分銷商和服務中心。對於旅行客戶，請聯繫您的原始賣家。`,
     ``,
     `本夥伴不能維修智能手錶、珠寶或皮革製品，請聯繫您的原賣家。`,
@@ -126,7 +130,7 @@ const languageMappings = {
     `Zalecenia dotyczące naprawy`,
     `Ten partner może serwisować tylko przedmioty zakupione za jego pośrednictwem i nie naprawia smartwatchy, biżuterii ani wyrobów skórzanych. W przypadku przedmiotów zakupionych podczas podróży lub od sprzedawcy zagranicznego należy skontaktować się ze sprzedawcą wymienionym na paragonie w celu uzyskania pomocy.`,
   ],
-  ptPt: [
+  pt_PT: [
     `Segue-se uma lista dos nossos distribuidores e centros de assistência localizados internacionalmente para os nossos relógios tradicionais e centros de assistência equipados para a assistência a smartwatches.`,
     `Para clientes em viagem, contacte o seu vendedor original.`,
     `Este parceiro não pode reparar smartwatches, jóias ou artigos em pele. Contacte o seu vendedor original.`,
@@ -137,7 +141,7 @@ const languageMappings = {
     `Instruções de reparação`,
     `Este parceiro só pode reparar artigos comprados através dele e não repara smartwatches, jóias ou artigos de couro. Para artigos comprados durante uma viagem ou a um vendedor internacional, contacte o vendedor indicado no recibo para obter assistência.`,
   ],
-  kr: [
+  ko: [
     `아래는 스마트워치를 서비스할 수 있는 전통적인 시계 및 서비스 센터를 위한 국제적으로 위치한 유통업체 및 서비스 센터 목록입니다.`,
     `여행하는 고객의 경우 원래 판매자에게 문의하십시오.`,
     `이 파트너는 스마트워치, 보석, 가죽 제품에 대한 수리 서비스를 제공하지 않습니다. 구매한 판매처에 문의하십시오.`,
@@ -196,7 +200,7 @@ let originalHtmlText = `<p>Below is a list of our internationally located distri
 <div class="items" style="width: 40%;"><strong>UNITED KINGDOM</strong><br>Please click below to visit our Repair Portal<br><a href="https://services-uk.fossilgroup.com/" target="_blank" rel="noopener">https://services-uk.fossilgroup.com</a>/</div>
 </div>`;
 let htmlText = originalHtmlText;
-
+console.log(htmlText);
 const updateHtml = () => {
   const newHtml = htmlInput.value;
   if (newHtml) {
@@ -217,9 +221,92 @@ function renderLSC(langCode) {
   }
 }
 
+function replaceDoubleQuotes() {
+  textArea.textContent = htmlText.replaceAll('"', '""');
+}
+
+function mapLanguagesToTranslations() {
+  const versionInput = document.querySelector("#version-input").value.trim();
+  console.log(versionInput);
+  //const htmlText = document.querySelector("#html-input").value.trim();
+
+  // Step 3: Replace double quotes
+  const replacedHtmlText = htmlText.replace(/"/g, '""');
+
+  const lines = versionInput.split("\n");
+  const translations = lines.map((line) => {
+    const [_, id, language] = line.split(/\s+/);
+    const translatedHtml = getTranslatedHtml(language, replacedHtmlText);
+    return {
+      Id: id,
+      Language: language,
+      Article_Body_External__c: translatedHtml,
+    };
+  });
+
+  console.log(translations);
+  return translations;
+}
+
+function getTranslatedHtml(langCode, htmlText) {
+  const translations = languageMappings[langCode]; // Dynamically get the mapping array
+  if (!translations) {
+    console.error("Invalid language code:", langCode);
+    return htmlText;
+  }
+  let translatedHtml = htmlText; // Reset to original HTML text before replacements
+  console.log(`Original HTML: ${htmlText}`);
+  for (let index = 0; index < mapping.length; index++) {
+    console.log(`Replacing "${mapping[index]}" with "${translations[index]}"`);
+    translatedHtml = translatedHtml
+      .split(mapping[index])
+      .join(translations[index]);
+  }
+  console.log(`Translated HTML for ${langCode}:`, translatedHtml);
+  return translatedHtml;
+}
+
 // Function to handle button clicks
 function getValue(button) {
   const langCode = button.textContent; // Get the clicked button's language code
   renderLSC(langCode);
   root.textContent = htmlText; // Update the DOM with the translated content
 }
+
+// Event listener for mapping languages to translations and exporting to CSV
+document
+  .querySelector("#map-language-to-translation")
+  .addEventListener("click", () => {
+    const translations = mapLanguagesToTranslations();
+    exportToCSV(translations);
+  });
+
+function exportToCSV(translations) {
+  const csvRows = [];
+  const headers = ["Id", "Language", "Article_Body_External__c"];
+  csvRows.push(headers.join(","));
+
+  translations.forEach((translation) => {
+    const values = [
+      translation.Id,
+      translation.Language,
+      `"${translation.Article_Body_External__c}"`,
+    ];
+    csvRows.push(values.join(","));
+  });
+
+  const csvContent = csvRows.join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.setAttribute("href", url);
+  a.setAttribute("download", "translations.csv");
+  a.click();
+}
+
+// Function to handle button clicks
+// function getValue(button) {
+//   const langCode = button.textContent; // Get the clicked button's language code
+//   renderLSC(langCode);
+//   root.textContent = htmlText; // Update the DOM with the translated content
+// }
